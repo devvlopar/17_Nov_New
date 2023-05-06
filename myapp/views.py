@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import *
 # Create your views here.
 
 def fun1(request):
@@ -15,3 +16,33 @@ def index(request):
 
 def about(request):
     return render(request, 'about.html')
+
+def register(request):
+    if request.method == 'GET':
+        return render(request, 'register.html')
+    else:
+        #method post hai aur row create karna hai
+
+        #ye condition password aur confirm password ke liye
+        if request.POST['password'] == request.POST['cpassword']:
+            User.objects.create(first_name = request.POST['fname'],
+                                last_name = request.POST['lname'],
+                                email = request.POST['email'],
+                                password =  request.POST['password'])
+            
+            return render(request, 'register.html', {'msg': 'Successfully Created!!'})
+        
+        else:
+            return render(request, 'register.html', {'msg': 'Both passwords DO not Match'})
+        
+        
+        
+       
+        
+        # request.POST['cpassword']
+
+
+
+
+def login(request):
+    return render(request, 'login.html')
