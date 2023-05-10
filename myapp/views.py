@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import *
+from django.core.mail import send_mail
+import random
+from django.conf import settings
 # Create your views here.
 
 def fun1(request):
@@ -25,24 +28,47 @@ def register(request):
 
         #ye condition password aur confirm password ke liye
         if request.POST['password'] == request.POST['cpassword']:
-            User.objects.create(first_name = request.POST['fname'],
-                                last_name = request.POST['lname'],
-                                email = request.POST['email'],
-                                password =  request.POST['password'])
-            
-            return render(request, 'register.html', {'msg': 'Successfully Created!!'})
+            try:
+                u1 = User.objects.get(email = request.POST['email'])
+                return render(request, 'register.html', {'msg': 'Email Already Exists'})
+            except:
+                #agar register page pe enter kiya hua email db nahi hai\
+                global c_otp, data_list
+                c_otp = random.randint(1000,9999)
+                data_list = [
+                    request.POST['fname'],
+                    request.POST['lname'],
+                    request.POST['email'],
+                    request.POST['password']
+                ]
+                s = 'Welcome to Ecommerce'
+                m = f'Your OTP is {c_otp}'
+                fm = settings.EMAIL_HOST_USER
+                rl = [request.POST['email']]
+                send_mail(s, m, fm, rl)
+                return render(request, 'otp.html')
         
         else:
             return render(request, 'register.html', {'msg': 'Both passwords DO not Match'})
         
         
         
-       
-        
-        # request.POST['cpassword']
-
-
-
 
 def login(request):
     return render(request, 'login.html')
+
+def otp(request):
+    if int(request.POST['u_otp']) == c_otp:
+        User.objects.create(
+            first_name = data_list[0],
+            last_name = data_list[1],
+            email = data_list[2],
+            password = data_list[3]
+        )
+        return render(request, 'register.html', {'msg': 'Successfully Account Created!!'})
+    else:
+        return render(request, 'otp.html', {'msg': 'Invalid OTP'})
+    
+
+def contact(request):
+    return render(request, 'contact.html')

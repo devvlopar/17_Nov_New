@@ -8,6 +8,9 @@ urlpatterns = [
     path('about/', about, name='about'),
     path('register/', register, name='shweta'),
     path('login/', login, name='login'),
+    path('otp/', otp, name='otp'),
+    path('contact/', contact, name='contact'),
+
 
 
 ]
