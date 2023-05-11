@@ -67,14 +67,31 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<li>
 						<span class="fa fa-phone" aria-hidden="true"></span> 001 234 5678
 					</li>
+
+					{% if userdata %}
+
+					<li>
+						<a href="" >
+							<span class="fa fa-unlock-alt" aria-hidden="true"></span>{{userdata.first_name}}</a>
+					</li>
+					<li>
+						<a href="{% url 'logout' %}" >
+							<span class="fa fa-pencil-square-o" aria-hidden="true"></span> Logout </a>
+					</li>
+
+					{% else %}
+					
 					<li>
 						<a href="{% url 'login' %}" >
-							<span class="fa fa-unlock-alt" aria-hidden="true"></span> Sign In </a>
+							<span class="fa fa-unlock-alt" aria-hidden="true"></span> Login </a>
 					</li>
 					<li>
 						<a href="{% url 'shweta' %}" >
 							<span class="fa fa-pencil-square-o" aria-hidden="true"></span> Sign Up </a>
 					</li>
+
+					{% endif %}
+
 				</ul>
 				<!-- //header lists -->
 				<!-- search -->
@@ -605,7 +622,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<div class="collapse navbar-collapse menu--shylock" id="bs-example-navbar-collapse-1">
 							<ul class="nav navbar-nav menu__list">
 								<li class="active">
-									<a class="nav-stylehead" href="index.html">Home
+									<a class="nav-stylehead" href="{% url 'index' %}">Home
 										<span class="sr-only">(current)</span>
 									</a>
 								</li>
@@ -736,7 +753,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									</ul>
 								</li>
 								<li class="">
-									<a class="nav-stylehead" href="faqs.html">Faqs</a>
+									<a class="nav-stylehead" href="{% url 'faqs' %}">Faqs</a>
 								</li>
 								<li class="dropdown">
 									<a class="nav-stylehead dropdown-toggle" href="#" data-toggle="dropdown">Pages
@@ -994,6 +1011,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<a href="product2.html">Dabur</a>
 						</li>
 						<li>
+							
 							<a href="product2.html">Colgate</a>
 						</li>
 						<li>

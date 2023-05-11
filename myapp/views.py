@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import *
 from django.core.mail import send_mail
@@ -15,10 +15,18 @@ def fun1(request):
 
 
 def index(request):
-    return render(request, 'index.html')
+    try:
+        u1 = User.objects.get(email = request.session['email'])
+        return render(request, 'index.html', {'userdata':u1})
+    except:
+        return render(request, 'index.html')
 
 def about(request):
-    return render(request, 'about.html')
+    try:
+        u1 = User.objects.get(email = request.session['email'])
+        return render(request, 'about.html', {'userdata':u1})
+    except:
+        return render(request, 'about.html')
 
 def register(request):
     if request.method == 'GET':
@@ -55,7 +63,24 @@ def register(request):
         
 
 def login(request):
-    return render(request, 'login.html')
+    if request.method == 'GET':
+        return render(request, 'login.html')
+    else:
+        #ye POST naam ki dict mein login form se data aa rha hai
+        # print(request.POST['email'])
+
+        try:
+        # form mein se jo email aaya hai wo email wali row db mein se get kar rhe hain
+            u1 = User.objects.get(email = request.POST['email'])
+            # error nahi aaya matalab row mil gya, now passwd check karo 
+            if request.POST['passwd'] == u1.password:
+                request.session['email'] = request.POST['email'] #ye line pe login ho gaya
+                return redirect('index')
+            else:
+                return render(request, 'login.html', {'msg': 'Invalid password'})
+
+        except:
+            return render(request, 'login.html', {'msg': 'Email Does Not Exist'})
 
 def otp(request):
     if int(request.POST['u_otp']) == c_otp:
@@ -71,4 +96,21 @@ def otp(request):
     
 
 def contact(request):
-    return render(request, 'contact.html')
+    try:
+        u1 = User.objects.get(email = request.session['email'])
+        return render(request, 'contact.html', {'userdata': u1})
+    except:
+        return render(request, 'contact.html')
+
+
+def faqs(request):
+    try:
+        u1 = User.objects.get(email = request.session['email'])
+        return render(request, 'faqs.html', {'userdata': u1})
+    except:
+        return render(request, 'faqs.html')
+    
+
+def logout(request):
+    del request.session['email']
+    return redirect('index')
