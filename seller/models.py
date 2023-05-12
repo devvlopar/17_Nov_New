@@ -9,6 +9,9 @@ class Seller(models.Model):
     password = models.CharField(max_length=150)
     gst_no = models.CharField(max_length=100)
 
+    def __str__(self) -> str:
+        return self.email
+
 
 class Product(models.Model):
     name = models.CharField(max_length=150)
@@ -16,3 +19,6 @@ class Product(models.Model):
     price = models.FloatField()
     pic = models.FileField(upload_to='product_pics', default='sad.jpg')
     seller = models.ForeignKey(Seller, on_delete= models.CASCADE)
+
+    def __str__(self) -> str:
+        return self.name

@@ -4,6 +4,7 @@ from .models import *
 from django.core.mail import send_mail
 import random
 from django.conf import settings
+from seller.models import *
 # Create your views here.
 
 def fun1(request):
@@ -15,11 +16,12 @@ def fun1(request):
 
 
 def index(request):
+    product_list = Product.objects.all()
     try:
         u1 = User.objects.get(email = request.session['email'])
-        return render(request, 'index.html', {'userdata':u1})
+        return render(request, 'index.html', {'userdata':u1, 'all_products': product_list})
     except:
-        return render(request, 'index.html')
+        return render(request, 'index.html', {'all_products': product_list})
 
 def about(request):
     try:
