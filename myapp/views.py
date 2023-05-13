@@ -116,3 +116,17 @@ def faqs(request):
 def logout(request):
     del request.session['email']
     return redirect('index')
+
+
+def add_to_cart(request, pk):
+    try:
+        u1 = User.objects.get(email = request.session['email'])
+        p1 = Product.objects.get(id = pk)
+        Cart.objects.create(
+            #ForeignKey wali field hoti hai to obj dena hai
+            buyer = u1, 
+            product = p1
+        )
+        return HttpResponse('added')
+    except:
+        return redirect('login')

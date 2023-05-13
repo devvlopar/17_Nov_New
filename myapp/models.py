@@ -1,4 +1,5 @@
 from django.db import models
+from seller.models import *
 
 # Create your models here.
 class User(models.Model):
@@ -11,3 +12,8 @@ class User(models.Model):
 
     def __str__(self):
         return self.email
+
+
+class Cart(models.Model):
+    buyer = models.ForeignKey(User, on_delete= models.CASCADE)
+    product = models.ForeignKey(Product, on_delete= models.CASCADE)

@@ -12,9 +12,7 @@ urlpatterns = [
     path('contact/', contact, name='contact'),
     path('faqs/', faqs, name='faqs'),
     path('logout/', logout, name='logout'),
-
-
-
+    path('add_to_cart/<int:pk>', add_to_cart, name='add_to_cart'),
 
 
 ]

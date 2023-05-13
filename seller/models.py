@@ -5,12 +5,12 @@ from django.db import models
 class Seller(models.Model):
     full_name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
-    pic = models.FileField(upload_to='seller_pics', default='sad.jpg')
+    pic = models.FileField(upload_to='seller_pics', default='sad.png')
     password = models.CharField(max_length=150)
     gst_no = models.CharField(max_length=100)
 
     def __str__(self) -> str:
-        return self.email
+        return self.full_name
 
 
 class Product(models.Model):
