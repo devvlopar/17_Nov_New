@@ -134,3 +134,7 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'chitanpatel597@gmail.com'
 EMAIL_HOST_PASSWORD = 'hkfddkdvwesrhbxk'
+
+
+RAZOR_KEY_ID = 'rzp_test_HiZwNT0wWu6K69'
+RAZOR_KEY_SECRET = 'QvJaV6U9ykuVwQF4V0vL7qSb'

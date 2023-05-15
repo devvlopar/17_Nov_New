@@ -30,7 +30,8 @@ def seller_login(request):
 def seller_index(request):
     try:
         s1 = Seller.objects.get(email = request.session['seller_email'])
-        return render(request, 'seller_index.html', {'sellerdata': s1})
+        s_l = SellerOrderHistory.objects.filter(product__seller = s1)
+        return render(request, 'seller_index.html', {'sellerdata': s1, 'my_orders': s_l})
     except:
         return redirect('seller_login')
     
